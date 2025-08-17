@@ -9,7 +9,9 @@
 #include "../../include/socktoip.h"
 
 #define PORT "9034"
-int getListener(){
+int getListener(char* addrbuffer){
+
+    //get socket for my address
     struct addrinfo hints, *ai, *p;
     memset(&hints, 0, sizeof(hints));
     hints.ai_socktype = SOCK_STREAM;
@@ -18,7 +20,7 @@ int getListener(){
     int err = getaddrinfo(NULL, PORT, &hints, &ai);
     if (err != 0){
         fprintf(stderr, "Error Getting Address Info: %s\n", gai_strerror(err));
-        exit(1);
+        return -1;
     }
     int sockfd;
     int yes; //for socket options
@@ -30,28 +32,27 @@ int getListener(){
         }
         setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
         if (bind(sockfd, p->ai_addr, p->ai_addrlen) < 0){
-            perror("Unable to bind to socket\n");
+            //perror("Unable to bind to socket\n");
             close(sockfd);
             continue;
         }
         break;
     }
     if (p == NULL){
-        fprintf(stderr, "Failed to bind to any of provided sockets");
-        exit(1);
+        fprintf(stderr, "Failed to bind to any of provided sockets\n");
+        return -1;
     }
 
-    char buffer[INET6_ADDRSTRLEN];
-    sockToIP(p->ai_addr, buffer, INET6_ADDRSTRLEN);
+    if (listen(sockfd, -1) < 0){
+        perror("Unable to listen on bound socket\n");
+        freeaddrinfo(ai);
+        return -1;
+    }
 
+
+    //get my addr info for connection
+    sockToIP(p->ai_addr, addrbuffer, sizeof(addrbuffer));
     //free address info as socket file descriptor is already bound
     freeaddrinfo(ai);
-
-    if (listen(sockfd, 10) < 0){
-        perror("Unable to listen on bound socket\n");
-    }
-
-    printf("Listening on %s port %s...\n", buffer, PORT);
-
     return sockfd;
 }
