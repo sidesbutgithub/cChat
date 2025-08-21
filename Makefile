@@ -3,7 +3,7 @@ CFLAGS = -Wall -Werror
 all: cchat
 
 cchat: main.o socktoip.o server.o getListener.o client.o getRemote.o peerToPeer.o
-	gcc ${CFLAGS} src/main.o src/utils/socktoip.o src/server/server.o src/server/getListener.o src/client/client.o src/peerToPeer/peerToPeer.o src/client/getRemote.o -o cchat
+	gcc ${CFLAGS} src/main.o src/utils/socktoip.o src/server/server.o src/server/getListener.o src/client/client.o src/peerToPeer/peerToPeer.o src/client/getRemote.o -o cChat
 
 main.o: src/main.c
 	gcc ${CFLAGS} -c src/main.c -o src/main.o
