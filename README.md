@@ -16,9 +16,9 @@ The program uses command line args to specify functionality
 ```
 listening on <your ip>
 ```
-if `<host>` and `<port>` are provided, the program will attempt a tcp connection to a socket at `<host>` and `<port>`  
-if the connection is successful, the chat session will begin  
-else, the program opens a listening socket listening on your ip and default port `9034` for connections exclusively from `<host>` and `<port>`  
+- if `<host>` and `<port>` are provided, the program will attempt a tcp connection to a socket at `<host>` and `<port>`  
+- if the connection is successful, the chat session will begin  
+- else, the program opens a listening socket listening on your ip and default port `9034` for connections exclusively from `<host>` and `<port>`  
 only when a connection from `<host>` and `<port>` is accepted will the chat session begin
 ## Chatting
 Once chatting has begun, the program polls the connected socket for incoming messages and stdin for your outgoing messages
