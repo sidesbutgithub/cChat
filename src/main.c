@@ -22,7 +22,7 @@ int main(int argc, char *argv[]){
     }
     else{
         if (client(argv[1])==-1){
-            printf("Unable to connect to <%d>, starting as server listening for connection from <%d>...\n", argv[1], argv[1]);
+            printf("Unable to connect to <%s>, starting as server listening for connection from <%s>...\n", argv[1], argv[1]);
             server(argv[1]);
         }
     }
